@@ -6,7 +6,7 @@ using System.Reflection;
 using Npgsql;
 using PgSqlLib.PgSql;
 
-namespace PgSqlLib
+namespace PgSqlLib.App_Classes
 {
     public static class Extensions 
     {

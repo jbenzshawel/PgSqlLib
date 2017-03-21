@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using Npgsql;
 using NpgsqlTypes;
+using PgSqlLib.Models;
+using PgSqlLib.App_Classes;
 
 namespace PgSqlLib.PgSql
 {
@@ -25,13 +27,13 @@ namespace PgSqlLib.PgSql
                     _listProcedures =  new Dictionary<Type, PgSqlFunction> 
                     {
                         // add list stored procedures here 
-                        // { 
-                        //     typeof (ModelName), new PgSqlFunction 
-                        //     { 
-                        //         Name = "list_model_name",
-                        //         Parameters = new NpgsqlParameter[] { PgSql.NpgParam(NpgsqlDbType.Boolean, "p_only_visible" ) }
-                        //     } 
-                        // },
+                        { 
+                            typeof (ModelName), new PgSqlFunction 
+                            { 
+                                Name = "list_model_name",
+                                Parameters = new NpgsqlParameter[] { PgSql.NpgParam(NpgsqlDbType.Boolean, "p_only_visible" ) }
+                            } 
+                        }
                     };
                 } // end if _listProcedures == null
                                     
@@ -53,13 +55,13 @@ namespace PgSqlLib.PgSql
                     _getProcedures = new Dictionary<Type, PgSqlFunction> 
                     {
                         // add get procedures here 
-                        // { 
-                        //     typeof(ModelName),  new PgSqlFunction 
-                        //     {
-                        //         Name = "get_model_name_by_id",
-                        //         Parameters = new NpgsqlParameter[] { PgSql.NpgParam(NpgsqlDbType.Uuid, "p_model_id") }
-                        //     } 
-                        // },
+                        { 
+                            typeof(ModelName),  new PgSqlFunction 
+                            {
+                                Name = "get_model_name_by_id",
+                                Parameters = new NpgsqlParameter[] { PgSql.NpgParam(NpgsqlDbType.Uuid, "p_model_id") }
+                            } 
+                        }
                                   
                     };
                 } // end if _getProcedures == null
@@ -82,18 +84,18 @@ namespace PgSqlLib.PgSql
                     _saveProcedures = new Dictionary<Type, PgSqlFunction>
                     {
                         // add save procedures here
-                        // { 
-                        //     typeof (ModelName), new PgSqlFunction 
-                        //     {
-                        //         Name = "save_model_name",
-                        //         Parameters = new NpgsqlParameter[] 
-                        //         {
-                        //             PgSql.NpgParam(NpgsqlDbType.Text, "p_name"),
-                        //             PgSql.NpgParam(NpgsqlDbType.Text, "p_description"),
-                        //             PgSql.NpgParam(NpgsqlDbType.Uuid, "p_model_id")
-                        //         }
-                        //     } 
-                        // },
+                        { 
+                            typeof (ModelName), new PgSqlFunction 
+                            {
+                                Name = "save_model_name",
+                                Parameters = new NpgsqlParameter[] 
+                                {
+                                    PgSql.NpgParam(NpgsqlDbType.Text, "p_name"),
+                                    PgSql.NpgParam(NpgsqlDbType.Text, "p_description"),
+                                    PgSql.NpgParam(NpgsqlDbType.Uuid, "p_model_id")
+                                }
+                            } 
+                        }
                     };
                 } // end if _saveProcedures == null
                 
@@ -115,13 +117,13 @@ namespace PgSqlLib.PgSql
                     _deleteProcedures = new Dictionary<Type, PgSqlFunction>
                     {
                         // add delete procedures here
-                        // { 
-                        //     typeof (ModelName), new PgSqlFunction 
-                        //     {
-                        //         Name =  "delete_model",
-                        //         Parameters = new NpgsqlParameter[] { PgSql.NpgParam(NpgsqlDbType.Uuid, "p_model_id") }
-                        //     }
-                        // },
+                        { 
+                            typeof (ModelName), new PgSqlFunction 
+                            {
+                                Name =  "delete_model",
+                                Parameters = new NpgsqlParameter[] { PgSql.NpgParam(NpgsqlDbType.Uuid, "p_model_id") }
+                            }
+                        }
                         
                     };
                 } // end if _deleteProcedures == null 

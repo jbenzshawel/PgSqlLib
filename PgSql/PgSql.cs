@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Npgsql;
 using NpgsqlTypes;
+using PgSqlLib.App_Classes;
 
 namespace PgSqlLib.PgSql
 {
