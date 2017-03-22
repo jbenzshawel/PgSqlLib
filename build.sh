@@ -1,5 +1,5 @@
 set -ev
-dotnet restore
-dotnet build project.json
-#dotnet build ./test/ApiQuizGenerator.Tests/project.json
-#dotnet test ./test/ApiQuizGenerator.Tests/project.json
+dotnet restore src/project.json
+dotnet build src/project.json
+#dotnet build ./test/
+#dotnet test ./test/
