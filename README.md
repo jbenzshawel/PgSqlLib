@@ -8,8 +8,6 @@
 In your Startup.cs file add the DataService dependency to the ConfigureServices method:
 
 ```C#
-using PgSqlLib;
-
 public void ConfigureServices(IServiceCollection services)
 {
      // note code above omitted for example
