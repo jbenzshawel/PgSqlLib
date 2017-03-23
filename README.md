@@ -2,8 +2,12 @@
 
 [![Build Status](https://travis-ci.org/jbenzshawel/PgSqlLib.svg?branch=master)](https://travis-ci.org/jbenzshawel/PgSqlLib)
 
- PostgreSql Class Library for ASP.NET Core DAL.
+PostgreSql Class Library for ASP.NET Core DAL.
 
+## Setting up the PostgreSql Database
+In the directory [/src/PLpgSql](https://github.com/jbenzshawel/PgSqlLib/tree/master/src/PLpgSql) there are example stored procedures as well as an example table schema for setting up the database to work with the library. Since this library was built to not use Entity Framework, the table schema and stored procedures have to be scripted. The examples use [PL/pgSQL](https://www.postgresql.org/docs/9.6/static/plpgsql.html), but any of the [supported](https://www.postgresql.org/docs/9.6/static/xplang.html) procedural languages can be used (PL/pgSQL, PL/Tcl, PL/Perl, or PL/Python).
+
+Note: The schema and stored procedures are intended to be used as an example / template. For the models in your application you will have to alter them for your needs. 
 ## Using with ASP.NET Core WebAPI
 In your Startup.cs file add the DataService dependency to the ConfigureServices method:
 
@@ -37,11 +41,6 @@ namespace YourAppNamespace.AppClasses
 ```
 Controllers that inherit the BaseController class can then use the DataService with the PostgreSql database. 
 
-## Setting up the PostgreSql Database
-In the directory [/src/PLpgSql](https://github.com/jbenzshawel/PgSqlLib/tree/master/src/PLpgSql) there are example stored procedures as well as an example table schema for setting up the database to work with the library. Since this library was built to not use Entity Framework, the table schema and stored procedures have to be scripted. The examples use [PL/pgSQL](https://www.postgresql.org/docs/9.6/static/plpgsql.html), but any of the [supported](https://www.postgresql.org/docs/9.6/static/xplang.html) procedural languages can be used (PL/pgSQL, PL/Tcl, PL/Perl, or PL/Python).
-
-Note: The schema and stored procedures are intended to be used as an example / template. For the models in your application you will have to alter them for your needs. 
-
 ## Models
 Models in this library work just like they would in MVC or WebAPI, however there is an additional attribute needed for properties that map to table columns. The [ColumnName](https://github.com/jbenzshawel/PgSqlLib/blob/master/src/App_Classes/ColumnName.cs) attribute should be applied to these properties. For example the attribute `[ColumnName("model_id")]`, with a string parameter corresponding to the PostgreSql column name, would be needed for a class property in a model.
 
@@ -72,5 +71,5 @@ Each list, get, save, and delete stored procedure created for models will need a
         }
     }
 ```
-## Notes about Project
+### Notes about Project
 Eventually I plan on updating this library so there is less scripting invloved. I may also switch the procedural language to Pg/Python. 
