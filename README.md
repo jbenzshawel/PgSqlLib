@@ -23,9 +23,8 @@ public void ConfigureServices(IServiceCollection services)
 Create a BaseController with a dependency on the DataService:
 
 ```C#
-
 using Microsoft.AspNetCore.Mvc;
-using  PgSqlLib;
+using PgSqlLib;
 
 namespace YourAppNamespace.AppClasses
 {
@@ -65,28 +64,28 @@ Models in this library work just like they would in MVC or WebAPI, however there
 Each list, get, save, and delete stored procedure created for models will need an entry in the corresponding Dictionary found in [PgSqlLib.PgSql.PgSqlObjects](https://github.com/jbenzshawel/PgSqlLib/blob/master/src/PgSql/PgSqlObjects.cs) with the appropriate parameters and name. An example for a get procedure by id is below.
 
 ```C#
-    private Dictionary<Type, PgSqlFunction> _getProcedures = null;
-    public Dictionary<Type, PgSqlFunction> GetProcedures 
-    { 
-        get 
-        {
-            if (_getProcedures == null) 
-            {
-                _getProcedures = new Dictionary<Type, PgSqlFunction> 
-                {
-                    // add get procedures here 
-                    { 
-                        typeof(ModelName),  new PgSqlFunction 
-                        {
-                            Name = "get_model_name_by_id",
-                            Parameters = new NpgsqlParameter[] { PgSql.NpgParam(NpgsqlDbType.Uuid, "p_model_id") }
-                        } 
-                     }             
-                };
-            } // end if _getProcedures == null        
-            return _getProcedures;
-        }
+private Dictionary<Type, PgSqlFunction> _getProcedures = null;
+public  Dictionary<Type, PgSqlFunction> GetProcedures 
+{ 
+     get 
+     {
+         if (_getProcedures == null) 
+         {
+             _getProcedures = new Dictionary<Type, PgSqlFunction> 
+             {
+                 // add get procedures here 
+                 { 
+                     typeof(ModelName),  new PgSqlFunction 
+                     {
+                         Name = "get_model_name_by_id",
+                         Parameters = new NpgsqlParameter[] { PgSql.NpgParam(NpgsqlDbType.Uuid, "p_model_id") }
+                     } 
+                 }             
+             };
+         } // end if _getProcedures == null        
+         return _getProcedures;
     }
+}
 ```
 ### Notes about Project
-Eventually I plan on updating this library so there is less scripting invloved. I may also switch the procedural language to Pg/Python. 
+Eventually I plan on updating this library to use more reflection so there is less configuration involved. I may also switch the procedural language to Pg/Python. 
