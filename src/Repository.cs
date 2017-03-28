@@ -42,9 +42,7 @@ namespace PgSqlLib
         }
 
         /// <summary>
-        /// Get a List&lt;T&gt; of Quiz, QuizType, Question, Answer, or Response objects. If getting a list of
-        /// questions id param is required and is the Guid QuizId corresponding to
-        /// questions
+        /// Get a List&lt;T&gt; of objects. 
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -68,7 +66,7 @@ namespace PgSqlLib
         }
 
         /// <summary>
-        /// Get Quiz, QuizType, Question, Answer, or Response by id (string id parsed to integer or Guid 
+        /// Get object of type T by id (string id parsed to integer or Guid 
         /// depending on Type T)
         /// </summary>
         /// <param name="id"></param>
@@ -88,7 +86,7 @@ namespace PgSqlLib
         }
 
         /// <summary>
-        /// Saves an object of type Quiz, QuizType, Question, Answer, or Response in the DB
+        /// Saves an object of type T in the DB
         /// Note: Uses Reflection to map Object proeprties to NpgSql Parameters 
         /// </summary>
         /// <param name="obj"></param>
@@ -134,7 +132,7 @@ namespace PgSqlLib
         }
 
         /// <summary>
-        /// Deletes a Quiz, QuizType, Question, Answer, or Response object from the DB by id
+        /// Deletes an object of type T from the DB by id
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
