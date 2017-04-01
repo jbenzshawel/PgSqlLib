@@ -10,7 +10,7 @@ namespace PgSqlLib
 
     public class DataService : IDataService
     {
-       public IRepository<ModelName> ModelName { get; set;}
+       public IRepository<ModelName> ModelName { get; set; }
 
        public DataService() 
        {

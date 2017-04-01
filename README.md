@@ -2,12 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jbenzshawel/PgSqlLib.svg?branch=master)](https://travis-ci.org/jbenzshawel/PgSqlLib)
 
-PostgreSql Class Library for ASP.NET Core DAL. This library is basically a wrapepr around [Npgsql](http://www.npgsql.org/) with a Repisorty / DataService that use generics for Models / objects in the PostgreSql database. 
-
-## Setting up the PostgreSql Database
-In the directory [/src/PLpgSql](https://github.com/jbenzshawel/PgSqlLib/tree/master/src/PLpgSql) there are example stored procedures as well as an example table schema for setting up the database to work with the library. Since this library was built to not use Entity Framework, the table schema and stored procedures have to be scripted. The examples use [PL/pgSQL](https://www.postgresql.org/docs/9.6/static/plpgsql.html), but any of the [supported](https://www.postgresql.org/docs/9.6/static/xplang.html) procedural languages can be used (PL/pgSQL, PL/Tcl, PL/Perl, or PL/Python).
-
-Note: The schema and stored procedures are intended to be used as an example / template. For the models in your application you will have to alter them for your needs. 
+PostgreSql Class Library for ASP.NET Core DAL. This library is basically a wrapepr around [Npgsql](http://www.npgsql.org/) with a Repisorty / DataService that have a generic parameter for Models in the PostgreSql database. 
 
 ## Using with ASP.NET Core WebAPI
 In your Startup.cs file add the DataService dependency to the ConfigureServices method:
@@ -55,12 +50,19 @@ public async Task<ModelName> Get(Guid id)
     return modelName;
 }
 ```
-Note: Since id could be a Guid, string, or int the Get method in the Repository has a type of string for the parameter. For your use case you may prefer to make parameter overloads for the `Repistory<T>.Get` method. 
+Note: Since id could be a Guid or integer the Get method in the Repository has a type of string for the parameter. For your use case you may prefer to make parameter overloads for the `Repistory<T>.Get` method. 
 
-## Models
+## Configuring the DAL
+
+### Setting up the PostgreSql Database
+In the directory [/src/PLpgSql](https://github.com/jbenzshawel/PgSqlLib/tree/master/src/PLpgSql) there are example stored procedures as well as an example table schema for setting up the database to work with the library. Since this library was built to not use Entity Framework, the table schema and stored procedures have to be scripted. The examples use [PL/pgSQL](https://www.postgresql.org/docs/9.6/static/plpgsql.html), but any of the [supported](https://www.postgresql.org/docs/9.6/static/xplang.html) procedural languages can be used (PL/pgSQL, PL/Tcl, PL/Perl, or PL/Python).
+
+Note: The schema and stored procedures are intended to be used as an example / template. For the models in your application you will have to alter them for your needs. 
+
+### Models
 Models in this library work just like they would in MVC or WebAPI, however there is an additional attribute needed for properties that map to table columns. The [ColumnName](https://github.com/jbenzshawel/PgSqlLib/blob/master/src/App_Classes/ColumnName.cs) attribute should be applied to these properties. For example the attribute `[ColumnName("model_id")]`, with a string parameter corresponding to the PostgreSql column name, would be needed for a class property in a model.
 
-## PgSql Objects 
+### PgSql Objects 
 Each list, get, save, and delete stored procedure created for models will need an entry in the corresponding Dictionary found in [PgSqlLib.PgSql.PgSqlObjects](https://github.com/jbenzshawel/PgSqlLib/blob/master/src/PgSql/PgSqlObjects.cs) with the appropriate parameters and name. An example for a get procedure by id is below.
 
 ```C#
@@ -87,5 +89,55 @@ public  Dictionary<Type, PgSqlFunction> GetProcedures
     }
 }
 ```
+
+### Repository and DataService 
+For each model in the PostgreSql database an instance of the class `PgSqlLib.Repository<T>` should be added to the `PgSqlLib.DataServce` class. See the example below for adding a model called "ModelName" to the DataService. 
+
+```C#
+public class DataService : IDataService
+{
+    // Add each model as property 
+    public IRepository<ModelName> ModelName { get; set; }
+
+    public DataService() 
+    {
+        // initialize the property to a new instance of the Repository class
+        this.ModelName = new Repository<ModelName>(); 
+    }
+}
+```
+
+### Mapping Objects to Models 
+For each model, code should be added to the `PgSqlLib.App_Classes.Extensions.ToModel<T>` method to parse the NpgsqlDataReader to a Model class. Eventually mapping will be done using reflection (phase 2). See the example below for parsing data to the "ModelName" class.
+
+```C#
+public static T ToModel<T>(this DbDataReader @this) where T : class
+{
+    T objectCast = null;
+
+    // return early if no data 
+    if (!@this.HasRows || @this.FieldCount == 0)
+        return objectCast;
+
+    // map NpgsqlDataReader to ModelName type
+    if (typeof (T) == typeof (ModelName) && objectCast == null) 
+    {
+        var modelName = new ModelName 
+        {
+            Id = Guid.Parse(@this["model_id"].ToString()),
+            Name = @this["name"].ToString(),
+            Description = @this["description"].ToString(),
+            Created = @this["created"] != DBNull.Value ? DateTime.Parse(@this["created"].ToString()) : DateTime.MinValue,
+            Updated = @this["updated"] != DBNull.Value ? (DateTime?)DateTime.Parse(@this["updated"].ToString()) : null,              
+        };
+
+        objectCast = modelName as T;
+    }
+
+    
+    return objectCast;
+}
+```
+
 ### Notes about Project
 Eventually I plan on updating this library to use more reflection so there is less configuration involved. I may also switch the procedural language to Pg/Python. 
