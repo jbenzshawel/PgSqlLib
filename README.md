@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jbenzshawel/PgSqlLib.svg?branch=master)](https://travis-ci.org/jbenzshawel/PgSqlLib)
 
-PostgreSql Class Library for ASP.NET Core DAL.
+PostgreSql Class Library for ASP.NET Core DAL. This library is basically a wrapepr around [Npgsql](http://www.npgsql.org/) with a Repisorty / DataService that use generics for Models / objects in the PostgreSql database. 
 
 ## Setting up the PostgreSql Database
 In the directory [/src/PLpgSql](https://github.com/jbenzshawel/PgSqlLib/tree/master/src/PLpgSql) there are example stored procedures as well as an example table schema for setting up the database to work with the library. Since this library was built to not use Entity Framework, the table schema and stored procedures have to be scripted. The examples use [PL/pgSQL](https://www.postgresql.org/docs/9.6/static/plpgsql.html), but any of the [supported](https://www.postgresql.org/docs/9.6/static/xplang.html) procedural languages can be used (PL/pgSQL, PL/Tcl, PL/Perl, or PL/Python).
