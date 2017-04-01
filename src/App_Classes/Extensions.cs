@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Npgsql;
 using PgSqlLib.PgSql;
+using PgSqlLib.Models;
 
 namespace PgSqlLib.App_Classes
 {
@@ -77,19 +78,19 @@ namespace PgSqlLib.App_Classes
 
             // ToDo: use GetColumnSchema for generic mapping
             // map NpgsqlDataReader to ModelName type
-            // if (typeof (T) == typeof (ModelName) && objectCast == null) 
-            // {
-            //     var modelName = new ModelName 
-            //     {
-            //         Id = Guid.Parse(@this["model_id"].ToString()),
-            //         Name = @this["name"].ToString(),
-            //         Description = @this["description"].ToString(),
-            //         Created = @this["created"] != DBNull.Value ? DateTime.Parse(@this["created"].ToString()) : DateTime.MinValue,
-            //         Updated = @this["updated"] != DBNull.Value ? (DateTime?)DateTime.Parse(@this["updated"].ToString()) : null,              
-            //     };
+            if (typeof (T) == typeof (ModelName) && objectCast == null) 
+            {
+                var modelName = new ModelName 
+                {
+                    Id = Guid.Parse(@this["model_id"].ToString()),
+                    Name = @this["name"].ToString(),
+                    Description = @this["description"].ToString(),
+                    Created = @this["created"] != DBNull.Value ? DateTime.Parse(@this["created"].ToString()) : DateTime.MinValue,
+                    Updated = @this["updated"] != DBNull.Value ? (DateTime?)DateTime.Parse(@this["updated"].ToString()) : null,              
+                };
 
-            //     objectCast = modelName as T;
-            // }
+                objectCast = modelName as T;
+            }
 
             
             return objectCast;
