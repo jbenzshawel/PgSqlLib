@@ -1,5 +1,5 @@
 set -ev
-dotnet restore src/project.json
-dotnet build src/project.json
+dotnet restore src/PgSql.csproj
+dotnet build src/PgSql.csproj
 #dotnet build ./test/
 #dotnet test ./test/
