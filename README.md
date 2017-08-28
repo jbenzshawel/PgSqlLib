@@ -107,37 +107,5 @@ public class DataService : IDataService
 }
 ```
 
-### Mapping Objects to Models 
-For each model, code should be added to the `PgSqlLib.App_Classes.Extensions.ToModel<T>` method to parse the NpgsqlDataReader to a Model class. Eventually mapping will be done using reflection (phase 2). See the example below for parsing data to the "ModelName" class.
-
-```C#
-public static T ToModel<T>(this DbDataReader @this) where T : class
-{
-    T objectCast = null;
-
-    // return early if no data 
-    if (!@this.HasRows || @this.FieldCount == 0)
-        return objectCast;
-
-    // map NpgsqlDataReader to ModelName type
-    if (typeof (T) == typeof (ModelName) && objectCast == null) 
-    {
-        var modelName = new ModelName 
-        {
-            Id = Guid.Parse(@this["model_id"].ToString()),
-            Name = @this["name"].ToString(),
-            Description = @this["description"].ToString(),
-            Created = @this["created"] != DBNull.Value ? DateTime.Parse(@this["created"].ToString()) : DateTime.MinValue,
-            Updated = @this["updated"] != DBNull.Value ? (DateTime?)DateTime.Parse(@this["updated"].ToString()) : null,              
-        };
-
-        objectCast = modelName as T;
-    }
-
-    
-    return objectCast;
-}
-```
-
 ### Notes about Project
 Eventually I plan on updating this library to use more reflection so there is less configuration involved. I may also switch the procedural language to Pg/Python. 
