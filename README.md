@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/jbenzshawel/PgSqlLib.svg?branch=master)](https://travis-ci.org/jbenzshawel/PgSqlLib)
 
-PostgreSql Class Library for ASP.NET Core DAL. This library is basically a wrapepr around [Npgsql](http://www.npgsql.org/) with a Repisorty / DataService that have a generic parameter for Models in the PostgreSql database. 
+PostgreSql Class Library for ASP.NET Core DAL. This library is basically a wrapepr around [Npgsql](http://www.npgsql.org/) with a Repository / DataService that have a generic parameter for Models in the PostgreSql database. 
 
 ## Using with ASP.NET Core WebAPI
 In your Startup.cs file add the DataService dependency to the ConfigureServices method:
