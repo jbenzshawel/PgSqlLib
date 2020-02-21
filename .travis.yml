@@ -3,7 +3,6 @@ language: csharp
 mono: none
 dist: xenial
 sudo: required
-mono: none
 dotnet: 3.1
 
 before_script:
